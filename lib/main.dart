@@ -4,6 +4,7 @@ import 'blocs/blocs.dart';
 import 'database/database.dart';
 import 'repositories/repositories.dart';
 import 'screens/main_navigation_screen.dart';
+import 'services/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,9 @@ void main() async {
   
   // Create repository
   final repository = LocalHealthRepository(database);
+  
+  // Start connectivity monitoring
+  ConnectivityService().startMonitoring();
   
   runApp(HealthTrackerApp(repository: repository));
 }
