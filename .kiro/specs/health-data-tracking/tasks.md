@@ -117,8 +117,8 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
     - Test main screen layout and quick entry buttons
     - _Requirements: 4.1, 4.2_
 
-- [ ] 8. Add offline functionality and persistence testing
-  - [ ] 8.1 Ensure offline functionality works correctly
+- [x] 8. Add offline functionality and persistence testing
+  - [x] 8.1 Ensure offline functionality works correctly
     - Test data entry and viewing without network connectivity
     - Verify SQLite operations work in offline mode
     - Add offline status handling if needed
@@ -128,7 +128,7 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
     - **Property 7: Offline functionality preservation**
     - **Validates: Requirements 3.3**
 
-  - [ ] 8.3 Test session persistence
+  - [x] 8.3 Test session persistence
     - Verify data persists between app restarts
     - Test database initialization on subsequent app launches
     - _Requirements: 3.4_
