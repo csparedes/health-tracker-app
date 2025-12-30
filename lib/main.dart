@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/blocs.dart';
 import 'database/database.dart';
 import 'repositories/repositories.dart';
-import 'screens/health_data_entry_screen.dart';
+import 'screens/screens.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -147,7 +147,7 @@ class HealthTrackerHome extends StatelessWidget {
             
             const SizedBox(height: 12),
             
-            // View history button (placeholder for now)
+            // View history button
             Card(
               child: ListTile(
                 leading: Container(
@@ -169,11 +169,9 @@ class HealthTrackerHome extends StatelessWidget {
                 subtitle: const Text('Consulta tus registros anteriores'),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
-                  // TODO: Navigate to history screen
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Pantalla de historial próximamente'),
-                      duration: Duration(seconds: 2),
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const HealthHistoryScreen(),
                     ),
                   );
                 },
