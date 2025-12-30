@@ -13,7 +13,7 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
   - _Requirements: 5.4_
 
 - [ ] 2. Implement core data models and database layer
-  - [ ] 2.1 Create HealthRecord model and HealthMetricType enum
+  - [x] 2.1 Create HealthRecord model and HealthMetricType enum
     - Define HealthRecord class with id, type, value, timestamp, notes
     - Create HealthMetricType enum for glucose, waistDiameter, bodyWeight
     - Add JSON serialization methods for database storage
@@ -23,7 +23,7 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
     - **Property 1: Health metric validation and storage**
     - **Validates: Requirements 1.1, 1.2, 1.3**
 
-  - [ ] 2.3 Implement SQLite database layer
+  - [x] 2.3 Implement SQLite database layer
     - Create HealthDatabase abstract class and SQLiteHealthDatabase implementation
     - Implement database initialization with health_records table creation
     - Add methods for insert, query, and delete operations with transaction support
