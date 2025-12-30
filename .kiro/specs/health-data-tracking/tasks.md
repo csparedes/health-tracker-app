@@ -80,8 +80,8 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
     - **Property 10: Appropriate unit display**
     - **Validates: Requirements 4.5**
 
-- [ ] 6. Implement history and display functionality
-  - [ ] 6.1 Create HealthHistoryScreen with record listing
+- [x] 6. Implement history and display functionality
+  - [x] 6.1 Create HealthHistoryScreen with record listing
     - Display all health records ordered by timestamp (most recent first)
     - Show measurement value, type, and formatted timestamp for each record
     - Handle empty state with helpful message
@@ -95,7 +95,7 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
     - **Property 5: Complete record display**
     - **Validates: Requirements 2.2**
 
-  - [ ] 6.4 Add filtering and grouping functionality
+  - [x] 6.4 Add filtering and grouping functionality
     - Implement filtering by health metric type
     - Group records by measurement type for better organization
     - Add filter UI controls

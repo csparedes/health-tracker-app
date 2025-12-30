@@ -6,10 +6,10 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:health_tracker_app/blocs/blocs.dart';
 import 'package:health_tracker_app/database/database.dart';
 import 'package:health_tracker_app/repositories/repositories.dart';
-import 'package:health_tracker_app/screens/health_history_screen.dart';
+import 'package:health_tracker_app/screens/main_navigation_screen.dart';
 
 void main() {
-  group('HealthHistoryScreen', () {
+  group('MainNavigationScreen', () {
     late SQLiteHealthDatabase database;
     late LocalHealthRepository repository;
     late HealthTrackingBloc bloc;
@@ -33,53 +33,53 @@ void main() {
       await database.close();
     });
 
-    testWidgets('should display empty state when no records exist', (WidgetTester tester) async {
+    testWidgets('should display bottom navigation with three tabs', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider.value(
             value: bloc,
-            child: const HealthHistoryScreen(),
+            child: const MainNavigationScreen(),
           ),
         ),
       );
 
-      // Wait for the initial load
-      await tester.pump();
-
-      // Should show empty state
-      expect(find.text('No hay registros de salud'), findsOneWidget);
-      expect(find.text('Comienza registrando tus primeras mediciones de salud'), findsOneWidget);
-      expect(find.text('Agregar Primer Registro'), findsOneWidget);
+      // Should have bottom navigation bar with three tabs
+      expect(find.byType(BottomNavigationBar), findsOneWidget);
+      expect(find.text('Inicio'), findsOneWidget);
+      expect(find.text('Registrar'), findsOneWidget);
+      expect(find.text('Historial'), findsOneWidget);
     });
 
-    testWidgets('should display filter button in app bar', (WidgetTester tester) async {
+    testWidgets('should display home screen by default', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider.value(
             value: bloc,
-            child: const HealthHistoryScreen(),
+            child: const MainNavigationScreen(),
           ),
         ),
       );
 
-      // Should have filter button in app bar
-      expect(find.byIcon(Icons.filter_list), findsOneWidget);
-      expect(find.text('Historial de Salud'), findsOneWidget);
+      // Should show home screen content
+      expect(find.text('Health Tracker'), findsOneWidget);
+      expect(find.text('Bienvenido a Health Tracker'), findsOneWidget);
+      expect(find.text('Registro Rápido'), findsOneWidget);
     });
 
-    testWidgets('should show loading state initially', (WidgetTester tester) async {
+    testWidgets('should show quick entry options for all metric types', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider.value(
             value: bloc,
-            child: const HealthHistoryScreen(),
+            child: const MainNavigationScreen(),
           ),
         ),
       );
 
-      // Should show loading initially
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      expect(find.text('Cargando historial...'), findsOneWidget);
+      // Should show quick entry options for all metric types
+      expect(find.text('Glucosa'), findsOneWidget);
+      expect(find.text('Diámetro de Cintura'), findsOneWidget);
+      expect(find.text('Peso Corporal'), findsOneWidget);
     });
   });
 }

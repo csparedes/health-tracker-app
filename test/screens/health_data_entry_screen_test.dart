@@ -5,6 +5,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:health_tracker_app/blocs/blocs.dart';
 import 'package:health_tracker_app/database/database.dart';
+import 'package:health_tracker_app/models/models.dart';
 import 'package:health_tracker_app/repositories/repositories.dart';
 import 'package:health_tracker_app/screens/health_data_entry_screen.dart';
 
@@ -104,6 +105,32 @@ void main() {
 
       // Should show kg unit
       expect(find.text('kg'), findsWidgets);
+    });
+
+    testWidgets('should pre-select initial type when provided', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: BlocProvider.value(
+            value: bloc,
+            child: const HealthDataEntryScreen(
+              initialType: HealthMetricType.bodyWeight,
+            ),
+          ),
+        ),
+      );
+
+      // Should have body weight pre-selected
+      expect(find.text('kg'), findsWidgets);
+      
+      // The body weight radio button should be selected
+      final bodyWeightRadio = tester.widget<RadioListTile<HealthMetricType>>(
+        find.byWidgetPredicate((widget) => 
+          widget is RadioListTile<HealthMetricType> && 
+          widget.title is Text && 
+          (widget.title as Text).data == 'Peso Corporal'
+        ),
+      );
+      expect(bodyWeightRadio.groupValue, equals(HealthMetricType.bodyWeight));
     });
   });
 }

@@ -6,7 +6,12 @@ import '../models/models.dart';
 
 /// Screen for entering health data measurements
 class HealthDataEntryScreen extends StatefulWidget {
-  const HealthDataEntryScreen({super.key});
+  final HealthMetricType? initialType;
+  
+  const HealthDataEntryScreen({
+    super.key,
+    this.initialType,
+  });
 
   @override
   State<HealthDataEntryScreen> createState() => _HealthDataEntryScreenState();
@@ -17,8 +22,15 @@ class _HealthDataEntryScreenState extends State<HealthDataEntryScreen> {
   final _valueController = TextEditingController();
   final _notesController = TextEditingController();
   
-  HealthMetricType _selectedType = HealthMetricType.glucose;
+  late HealthMetricType _selectedType;
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Use the initial type if provided, otherwise default to glucose
+    _selectedType = widget.initialType ?? HealthMetricType.glucose;
+  }
 
   @override
   void dispose() {
@@ -78,11 +90,8 @@ class _HealthDataEntryScreenState extends State<HealthDataEntryScreen> {
                 duration: const Duration(seconds: 4),
               ),
             );
-          } else if (state is HealthTrackingLoading) {
-            setState(() {
-              _isLoading = true;
-            });
           }
+          // Note: Removed HealthTrackingLoading listener to prevent interference from other operations
         },
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -296,6 +305,11 @@ class _HealthDataEntryScreenState extends State<HealthDataEntryScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+
+    // Set loading state
+    setState(() {
+      _isLoading = true;
+    });
 
     final value = double.parse(_valueController.text);
     final notes = _notesController.text.trim().isEmpty 
