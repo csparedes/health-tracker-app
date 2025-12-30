@@ -59,8 +59,8 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
   - All backend components (models, database, repository, BLoC) working correctly
   - Spanish validation messages and error handling implemented
 
-- [ ] 5. Implement data entry user interface
-  - [ ] 5.1 Create HealthDataEntryScreen with input forms
+- [x] 5. Implement data entry user interface
+  - [x] 5.1 Create HealthDataEntryScreen with input forms
     - Build separate input fields for glucose, waist diameter, and weight
     - Add validation with appropriate ranges and error messages
     - Implement save functionality with success confirmation
@@ -71,7 +71,7 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
     - Test error message display for invalid inputs
     - _Requirements: 1.5_
 
-  - [ ] 5.3 Add unit display and formatting
+  - [x] 5.3 Add unit display and formatting
     - Display appropriate units (mg/dL, cm, kg) for each metric type
     - Format input fields with proper decimal places and constraints
     - _Requirements: 4.5_

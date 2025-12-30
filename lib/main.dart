@@ -1,34 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'blocs/blocs.dart';
+import 'database/database.dart';
+import 'repositories/repositories.dart';
+import 'screens/health_data_entry_screen.dart';
 
-void main() {
-  runApp(const HealthTrackerApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize database
+  final database = SQLiteHealthDatabase();
+  await database.initialize();
+  
+  // Create repository
+  final repository = LocalHealthRepository(database);
+  
+  runApp(HealthTrackerApp(repository: repository));
 }
 
 class HealthTrackerApp extends StatelessWidget {
-  const HealthTrackerApp({super.key});
+  final HealthRepository repository;
+  
+  const HealthTrackerApp({
+    super.key,
+    required this.repository,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Health Tracker',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-          elevation: 0,
-        ),
-        cardTheme: CardTheme(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+    return BlocProvider(
+      create: (context) => HealthTrackingBloc(repository),
+      child: MaterialApp(
+        title: 'Health Tracker',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.teal,
+            brightness: Brightness.light,
+          ),
+          useMaterial3: true,
+          appBarTheme: const AppBarTheme(
+            centerTitle: true,
+            elevation: 0,
+          ),
+          cardTheme: CardTheme(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
+        home: const HealthTrackerHome(),
       ),
-      home: const HealthTrackerHome(),
     );
   }
 }
@@ -43,38 +65,147 @@ class HealthTrackerHome extends StatelessWidget {
         title: const Text('Health Tracker'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: const Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Icon(
-              Icons.health_and_safety,
-              size: 80,
-              color: Colors.teal,
+            // Welcome section
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    const Icon(
+                      Icons.health_and_safety,
+                      size: 64,
+                      color: Colors.teal,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Bienvenido a Health Tracker',
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Registra y monitorea tus datos de salud de manera fácil y segura',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey[600],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
             ),
-            SizedBox(height: 24),
+            
+            const SizedBox(height: 24),
+            
+            // Quick actions section
             Text(
-              'Bienvenido a Health Tracker',
-              style: TextStyle(
-                fontSize: 24,
+              'Acciones Rápidas',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
-            Text(
-              'Registra y monitorea tus datos de salud',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
+            
+            const SizedBox(height: 16),
+            
+            // Add new record button
+            Card(
+              child: ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.teal.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.add_circle_outline,
+                    color: Colors.teal,
+                    size: 32,
+                  ),
+                ),
+                title: const Text(
+                  'Registrar Nuevos Datos',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: const Text('Agrega mediciones de glucosa, cintura o peso'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const HealthDataEntryScreen(),
+                    ),
+                  );
+                },
               ),
-              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 32),
-            Text(
-              'La aplicación está en desarrollo...',
-              style: TextStyle(
-                fontSize: 14,
-                fontStyle: FontStyle.italic,
+            
+            const SizedBox(height: 12),
+            
+            // View history button (placeholder for now)
+            Card(
+              child: ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.history,
+                    color: Colors.blue,
+                    size: 32,
+                  ),
+                ),
+                title: const Text(
+                  'Ver Historial',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: const Text('Consulta tus registros anteriores'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  // TODO: Navigate to history screen
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Pantalla de historial próximamente'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+              ),
+            ),
+            
+            const Spacer(),
+            
+            // Info section
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    color: Colors.grey[600],
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'Todos tus datos se almacenan localmente en tu dispositivo para garantizar tu privacidad.',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

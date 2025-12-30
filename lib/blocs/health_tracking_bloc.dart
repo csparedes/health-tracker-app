@@ -46,8 +46,7 @@ class HealthTrackingBloc extends Bloc<HealthTrackingEvent, HealthTrackingState> 
         successMessage: _getSuccessMessage(event.record.type),
       ));
 
-      // Automatically reload the history to show updated data
-      add(const LoadHistory());
+      // Note: Don't automatically reload history here - let the UI decide when to load history
     } on ValidationException catch (e) {
       emit(HealthTrackingValidationError([e.message]));
     } on RepositoryException catch (e) {
@@ -158,8 +157,7 @@ class HealthTrackingBloc extends Bloc<HealthTrackingEvent, HealthTrackingState> 
 
       emit(HealthRecordDeleted(event.recordId));
 
-      // Automatically reload the history to show updated data
-      add(const LoadHistory());
+      // Note: Don't automatically reload history here - let the UI decide when to load history
     } on RepositoryException catch (e) {
       emit(HealthTrackingError(
         'Error al eliminar el registro',
