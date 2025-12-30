@@ -34,7 +34,7 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
     - **Validates: Requirements 1.4, 3.2**
 
 - [ ] 3. Implement repository layer and business logic
-  - [ ] 3.1 Create HealthRepository interface and LocalHealthRepository implementation
+  - [x] 3.1 Create HealthRepository interface and LocalHealthRepository implementation
     - Implement saveHealthRecord method with validation
     - Add getHealthHistory and getHistoryByType methods
     - Include error handling for database operations
@@ -44,7 +44,7 @@ Implementación de una aplicación Flutter para seguimiento de datos de salud (g
     - **Property 3: Invalid input rejection**
     - **Validates: Requirements 1.5, 3.5**
 
-  - [ ] 3.3 Implement HealthTrackingBloc for state management
+  - [x] 3.3 Implement HealthTrackingBloc for state management
     - Create events for AddHealthRecord, LoadHistory, FilterByType
     - Define states for Loading, Loaded, Error
     - Implement business logic for data validation and storage
